@@ -22,15 +22,18 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		listview = (KMultiStateListView) findViewById(R.id.listview);
 		kprogresslayout = (KProgressLayout) findViewById(R.id.kprogresslayout);
-		kprogresslayout.showProgress(true);
+		kprogresslayout.showLoadingView();
 		adatper = new MyAdapter();
 		listview.setAdapter(adatper);
+		adatper.setItems(20);
 		new Handler().postDelayed(new Runnable() {
 			
 			@Override
 			public void run() {
 				adatper.setItems(20);
-				kprogresslayout.showProgress(false);
+				kprogresslayout.cancelProgress();
+				kprogresslayout.showEmptyView();
+				kprogresslayout.showErrorView();
 //				listview.showEmptyView();
 			}
 		}, 2000);

@@ -22,6 +22,7 @@
     </declare-styleable>
     <declare-styleable name="ProgressLayout">
         <attr name="loadingView" />
+        <attr name="emptyView" />
         <attr name="errorView" />
     </declare-styleable>
 
