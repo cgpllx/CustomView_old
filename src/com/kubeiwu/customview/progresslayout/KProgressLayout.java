@@ -49,7 +49,7 @@ public class KProgressLayout extends FrameLayout {
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		init();
-	}
+	} 
 
 	public void init() {
 		this.addView(mErrorView);
