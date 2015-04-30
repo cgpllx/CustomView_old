@@ -1,18 +1,13 @@
 package com.kubeiwu.customview.progresslayout;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.kubeiwu.customview.R;
-import com.kubeiwu.customview.multistatelistview.KMultiStateListView.State;
 
 public class KProgressLayout extends FrameLayout {
 	private View mMainView;
