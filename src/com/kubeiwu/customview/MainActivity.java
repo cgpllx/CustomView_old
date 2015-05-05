@@ -8,63 +8,63 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.kubeiwu.customview.multistatelistview.KMultiStateListView;
-import com.kubeiwu.customview.multistatelistview.KMultiStateListView.IKMultiStateListViewListener;
-import com.kubeiwu.customview.progresslayout.KProgressLayout;
+import com.kubeiwu.customview.progress.KMultistateLayout;
+import com.kubeiwu.customview.progress.KMultistateListView;
+import com.kubeiwu.customview.progress.core.IKMultistateClickListener;
 
 public class MainActivity extends Activity {
-	KMultiStateListView listview;
+	KMultistateListView listview;
 	MyAdapter adatper;
-	KProgressLayout kprogresslayout;
+	KMultistateLayout kprogresslayout;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		listview = (KMultiStateListView) findViewById(R.id.listview);
-		kprogresslayout = (KProgressLayout) findViewById(R.id.kprogresslayout);
-		kprogresslayout.showLoadingView();
+		listview = (KMultistateListView) findViewById(R.id.listview);
+		kprogresslayout = (KMultistateLayout) findViewById(R.id.kprogresslayout);
+		// kprogresslayout.showLoadingView();
 		adatper = new MyAdapter();
 		listview.setAdapter(adatper);
 		adatper.setItems(20);
 		new Handler().postDelayed(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				adatper.setItems(20);
-				kprogresslayout.cancelProgress();
-				kprogresslayout.showEmptyView();
-				kprogresslayout.showErrorView();
-//				listview.showEmptyView();
+				// kprogresslayout.cancelAll();
+				// kprogresslayout.showEmptyView();
+				// kprogresslayout.showErrorView();
+				// listview.showEmptyView();
 			}
 		}, 2000);
-//		listview.initViews();
-		listview.setMultiStateListViewListener(new IKMultiStateListViewListener() {
-			
+		// listview.initViews();
+		listview.setMultistateClickListener(new IKMultistateClickListener() {
+
 			@Override
 			public void onLoadingViewClick() {
-				System.out.println("onLoadingViewClick");
+
 			}
-			
+
 			@Override
 			public void onErrorViewClick() {
-				System.out.println("onErrorViewClick");
-				
+
 			}
-			
+
 			@Override
 			public void onEmptyViewClick() {
-				System.out.println("onEmptyViewClick");
-				
+
 			}
 		});
-//		mLoadingView.
-//		listview.showLoadingView();
+		// mLoadingView.
+		// listview.showLoadingView();
 	}
 
 	class MyAdapter extends BaseAdapter {
-		int count=0;
+		int count = 0;
+
 		public void setItems(int count) {
-			this.count=count;
+			this.count = count;
 			notifyDataSetChanged();
 		}
 

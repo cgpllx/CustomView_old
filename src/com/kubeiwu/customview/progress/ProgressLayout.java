@@ -1,4 +1,4 @@
-package com.kubeiwu.customview.progresslayout;
+package com.kubeiwu.customview.progress;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

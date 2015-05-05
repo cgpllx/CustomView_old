@@ -1,4 +1,4 @@
-package com.kubeiwu.customview.multistatelistview;
+package com.kubeiwu.customview.progress;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,22 +9,23 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.kubeiwu.customview.R;
+import com.kubeiwu.customview.progress.core.IKMultistateClickListener;
 import com.kubeiwu.customview.pulltorefresh.listview.XListView;
 
-public class KMultiStateListView extends XListView {
+public class KMultistateListView extends XListView {
 	private View mLoadingView;
 	private View mEmptyView;
 	private View mErrorView;
 
-	public KMultiStateListView(Context context, AttributeSet attrs) {
+	public KMultistateListView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public KMultiStateListView(Context context) {
+	public KMultistateListView(Context context) {
 		this(context, null);
 	}
 
-	public KMultiStateListView(Context context, AttributeSet attrs, int defStyle) {
+	public KMultistateListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		LayoutInflater mLayoutInflater = LayoutInflater.from(context);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultiStateListView);
@@ -59,13 +60,13 @@ public class KMultiStateListView extends XListView {
 	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
-		initEmptyViews();
+		initMultistate();
 	}
 
 	/**
 	 * 默认值显示mLoadingView，这个最常用
 	 */
-	public void initEmptyViews() {
+	public void initMultistate() {
 		ViewGroup parent = (ViewGroup) getParent();
 		if (parent == null) {
 			throw new IllegalStateException(getClass().getSimpleName() + " is not attached to parent view.");
@@ -82,8 +83,8 @@ public class KMultiStateListView extends XListView {
 			mEmptyView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (multiStateListViewListener != null) {
-						multiStateListViewListener.onEmptyViewClick();
+					if (multistateClickListener != null) {
+						multistateClickListener.onEmptyViewClick();
 					}
 				}
 			});
@@ -95,8 +96,8 @@ public class KMultiStateListView extends XListView {
 			mErrorView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (multiStateListViewListener != null) {
-						multiStateListViewListener.onErrorViewClick();
+					if (multistateClickListener != null) {
+						multistateClickListener.onErrorViewClick();
 					}
 				}
 			});
@@ -108,8 +109,8 @@ public class KMultiStateListView extends XListView {
 			mLoadingView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (multiStateListViewListener != null) {
-						multiStateListViewListener.onLoadingViewClick();
+					if (multistateClickListener != null) {
+						multistateClickListener.onLoadingViewClick();
 					}
 				}
 			});
@@ -193,40 +194,9 @@ public class KMultiStateListView extends XListView {
 		return container;
 	}
 
-	private IKMultiStateListViewListener multiStateListViewListener;
+	private IKMultistateClickListener multistateClickListener;
 
-	public void setMultiStateListViewListener(IKMultiStateListViewListener multiStateListViewListener) {
-		this.multiStateListViewListener = multiStateListViewListener;
-	}
-
-	public interface IKMultiStateListViewListener {
-		public void onLoadingViewClick();
-
-		public void onEmptyViewClick();
-
-		public void onErrorViewClick();
-	}
-
-	/**
-	 * IKMultiStateListViewListener的空实现
-	 * 
-	 * @author Administrator
-	 *
-	 */
-	public class BaseMultiStateListViewListener implements IKMultiStateListViewListener {
-		@Override
-		public void onLoadingViewClick() {
-
-		}
-
-		@Override
-		public void onEmptyViewClick() {
-		}
-
-		@Override
-		public void onErrorViewClick() {
-
-		}
-
+	public void setMultistateClickListener(IKMultistateClickListener multistateClickListener) {
+		this.multistateClickListener = multistateClickListener;
 	}
 }

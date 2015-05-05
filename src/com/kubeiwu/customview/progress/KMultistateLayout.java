@@ -1,4 +1,4 @@
-package com.kubeiwu.customview.progresslayout;
+package com.kubeiwu.customview.progress;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,22 +8,22 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.kubeiwu.customview.R;
+import com.kubeiwu.customview.progress.core.IKMultistateClickListener;
 
-public class KProgressLayout extends FrameLayout {
-	private View mMainView;
+public class KMultistateLayout extends FrameLayout {
 	private View mLoadingView;
 	private View mEmptyView;
 	private View mErrorView;
 
-	public KProgressLayout(Context context) {
+	public KMultistateLayout(Context context) {
 		this(context, null);
 	}
 
-	public KProgressLayout(Context context, AttributeSet attrs) {
+	public KMultistateLayout(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
-  
-	public KProgressLayout(Context context, AttributeSet attrs, int defStyle) {
+
+	public KMultistateLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,13 +43,51 @@ public class KProgressLayout extends FrameLayout {
 	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
-		init();
-	} 
+		initMultistate();
+	}
 
-	public void init() {
-		this.addView(mErrorView);
-		this.addView(mEmptyView);
-		this.addView(mLoadingView);
+	public void initMultistate() {
+		
+		if (mEmptyView != null) {
+			this.addView(mEmptyView);
+			mEmptyView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (multistateClickListener != null) {
+						multistateClickListener.onEmptyViewClick();
+					}
+				}
+			});
+			mEmptyView.setVisibility(View.GONE);
+		}
+
+		if (mErrorView != null) {
+			this.addView(mErrorView);
+			mErrorView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (multistateClickListener != null) {
+						multistateClickListener.onErrorViewClick();
+					}
+				}
+			});
+			mErrorView.setVisibility(View.GONE);
+		}
+
+		if (mLoadingView != null) {
+			this.addView(mLoadingView);
+			mLoadingView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (multistateClickListener != null) {
+						multistateClickListener.onLoadingViewClick();
+					}
+				}
+			});
+			mLoadingView.setVisibility(View.GONE);
+		}
+		
+		
 	}
 
 	public static interface State {
@@ -67,7 +105,8 @@ public class KProgressLayout extends FrameLayout {
 	public void showErrorView() {
 		showView(State.ERROR);
 	}
-	public void cancelProgress() {
+
+	public void cancelAll() {
 		showView(State.CANCEL);
 	}
 
@@ -104,4 +143,9 @@ public class KProgressLayout extends FrameLayout {
 		}
 	}
 
+	private IKMultistateClickListener multistateClickListener;
+
+	public void setMultistateClickListener(IKMultistateClickListener multistateClickListener) {
+		this.multistateClickListener = multistateClickListener;
+	}
 }
