@@ -58,7 +58,7 @@ public class KListViewHeader extends LinearLayout {
 	private void initView(Context context) {
 		// 初始情况，设置下拉刷新view高度为0
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, 0);
-		mContainer = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.xlistview_header, null);
+		mContainer = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.klistview_header, null);
 
 		addView(mContainer, lp);
 		setGravity(Gravity.BOTTOM);
