@@ -30,15 +30,15 @@ public class ProgressLayout extends FrameLayout {
 		super(context, attrs, defStyle);
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.progresslayout_layout, this, true);
+		inflater.inflate(R.layout.multistatelayout_layout, this, true);
 		TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.MultistateLayout);
 
-		int progressLayoutRef = attributes.getResourceId(R.styleable.MultistateLayout_loadingView, R.layout.progresslayout_loadingview);
+		int progressLayoutRef = attributes.getResourceId(R.styleable.MultistateLayout_loadingView, R.layout.multistatelayout_loadingview);
 		View progressView = inflater.inflate(progressLayoutRef, this, false);
 
 		// this.addView(progressView);
 
-		int errorLayoutRef = attributes.getResourceId(R.styleable.MultistateLayout_errorView, R.layout.progresslayout_errorview);
+		int errorLayoutRef = attributes.getResourceId(R.styleable.MultistateLayout_errorView, R.layout.multistatelayout_errorview);
 		View errorView = inflater.inflate(errorLayoutRef, this, false);
 		// this.addView(errorView);
 

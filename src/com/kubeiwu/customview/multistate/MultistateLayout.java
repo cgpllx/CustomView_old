@@ -27,14 +27,14 @@ public class MultistateLayout extends FrameLayout {
 		super(context, attrs, defStyle);
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.progresslayout_layout, this, true);
+		inflater.inflate(R.layout.multistatelayout_layout, this, true);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultistateLayout);
 
-		int progressViewRef_id = a.getResourceId(R.styleable.MultistateLayout_loadingView, R.layout.progresslayout_loadingview);
+		int progressViewRef_id = a.getResourceId(R.styleable.MultistateLayout_loadingView, R.layout.multistatelayout_loadingview);
 		mLoadingView = inflater.inflate(progressViewRef_id, this, false);
-		int errorViewRef_id = a.getResourceId(R.styleable.MultistateLayout_errorView, R.layout.progresslayout_errorview);
+		int errorViewRef_id = a.getResourceId(R.styleable.MultistateLayout_errorView, R.layout.multistatelayout_errorview);
 		mErrorView = inflater.inflate(errorViewRef_id, this, false);
-		int emptyViewRef_id = a.getResourceId(R.styleable.MultistateLayout_emptyView, R.layout.progresslayout_errorview);
+		int emptyViewRef_id = a.getResourceId(R.styleable.MultistateLayout_emptyView, R.layout.multistatelayout_errorview);
 		mEmptyView = inflater.inflate(emptyViewRef_id, this, false);
 
 		a.recycle();
