@@ -1,4 +1,4 @@
-package com.kubeiwu.customview.progress;
+package com.kubeiwu.customview.multistate;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -31,14 +31,14 @@ public class ProgressLayout extends FrameLayout {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.progresslayout_layout, this, true);
-		TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.ProgressLayout);
+		TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.MultistateLayout);
 
-		int progressLayoutRef = attributes.getResourceId(R.styleable.ProgressLayout_loadingView, R.layout.progresslayout_loadingview);
+		int progressLayoutRef = attributes.getResourceId(R.styleable.MultistateLayout_loadingView, R.layout.progresslayout_loadingview);
 		View progressView = inflater.inflate(progressLayoutRef, this, false);
 
 		// this.addView(progressView);
 
-		int errorLayoutRef = attributes.getResourceId(R.styleable.ProgressLayout_errorView, R.layout.progresslayout_errorview);
+		int errorLayoutRef = attributes.getResourceId(R.styleable.MultistateLayout_errorView, R.layout.progresslayout_errorview);
 		View errorView = inflater.inflate(errorLayoutRef, this, false);
 		// this.addView(errorView);
 

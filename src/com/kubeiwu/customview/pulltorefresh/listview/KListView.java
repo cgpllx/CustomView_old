@@ -1,6 +1,8 @@
 package com.kubeiwu.customview.pulltorefresh.listview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,32 +19,44 @@ import android.widget.TextView;
 import com.kubeiwu.customview.R;
 
 /**
+ * KListview根据xlistview扩展而来
+ * 
  * @author cgpllx1@qq.com (www.kubeiwu.com)
  * @date 2014-7-29
  */
-public class XListView extends ListView implements OnScrollListener {
+public class KListView extends ListView implements OnScrollListener {
 
 	private float mLastY = -1; // save event y
+
 	private Scroller mScroller; // used for scroll back
+
 	private OnScrollListener mScrollListener; // user's scroll listener
 
 	// the interface to trigger refresh and load more.
-	private IXListViewListener mListViewListener;
+	private IKListViewListener mListViewListener;
 
 	// -- header view
-	private XListViewHeader mHeaderView;
+	private KListViewHeader mHeaderView;
+
 	// header view content, use it to calculate the Header's height. And hide it
 	// when disable pull refresh.
 	private RelativeLayout mHeaderViewContent;
+
 	private TextView mHeaderTimeView;
+
 	private int mHeaderViewHeight; // header view's height
-	private boolean mEnablePullRefresh = true;
+
+	private boolean mEnablePullRefresh = false;// ++++++++++++++++++++刷新
+
 	private boolean mPullRefreshing = false; // is refreashing.
 
 	// -- footer view
-	private XListViewFooter mFooterView;
-	private boolean mEnablePullLoad;
+	private KListViewFooter mFooterView;
+
+	private boolean mEnablePullLoad = false;// +++++++++++++++++++++++++++加载
+
 	private boolean mPullLoading;
+
 	private boolean mIsFooterReady = false;
 
 	// total list items, used to detect is at the bottom of listview.
@@ -50,62 +64,123 @@ public class XListView extends ListView implements OnScrollListener {
 
 	// for mScroller, scroll back from header or footer.
 	private int mScrollBack;
+
 	private final static int SCROLLBACK_HEADER = 0;
+
 	private final static int SCROLLBACK_FOOTER = 1;
 
 	private final static int SCROLL_DURATION = 400; // scroll back duration
+
 	private final static int PULL_LOAD_MORE_DELTA = 50; // when pull up >= 50px
 														// at bottom, trigger
 														// load more.
+
 	private final static float OFFSET_RADIO = 1.8f; // support iOS like pull
 													// feature.
+													// private String
+													// header_hint_normal =
+													// "\u4e0b\u62c9\u5237\u65b0",//
+													// 下拉刷新
+
+	// private KConfig config;
 
 	/**
 	 * @param context
 	 */
-	public XListView(Context context) {
-		this(context,null);
+	public KListView(Context context) {
+		this(context, null, 0, null);
 	}
 
-	public XListView(Context context, AttributeSet attrs) {
-		this(context, attrs,0);
+	public KListView(Context context, KConfig config) {
+		this(context, null, 0, config);
 	}
 
-	public XListView(Context context, AttributeSet attrs, int defStyle) {
+	public KListView(Context context, AttributeSet attrs) {
+		this(context, attrs, 0, null);
+	}
+
+	public KListView(Context context, AttributeSet attrs, KConfig config) {
+		this(context, attrs, 0, config);
+	}
+
+	public KListView(Context context, AttributeSet attrs, int defStyle) {
+		this(context, attrs, defStyle, null);
+	}
+
+	public KListView(Context context, AttributeSet attrs, int defStyle, KConfig config) {
 		super(context, attrs, defStyle);
-		initWithContext(context);
+		if (config == null) {
+			config = KConfig.getSimpleInstance();
+		}
+		if (attrs != null) {
+			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KListView);
+			int count = a.getIndexCount();
+			for (int i = 0; i < count; i++) {
+				int attr = a.getIndex(i);
+				switch (attr) {
+					case R.styleable.KListView_arrow_pic:
+						int arrow_pic_resId = a.getResourceId(attr, R.drawable.klistview_arrow);
+						config.setArrow_pic_resId(arrow_pic_resId);
+						break;
+					case R.styleable.KListView_footer_hint_normal:
+						config.setFooter_hint_normal(a.getText(attr));
+						break;
+					case R.styleable.KListView_footer_hint_ready:
+						config.setFooter_hint_ready(a.getText(attr));
+						break;
+					case R.styleable.KListView_header_hint_loading:
+						config.setHeader_hint_loading(a.getText(attr));
+						break;
+					case R.styleable.KListView_header_hint_normal:
+						config.setHeader_hint_normal(a.getText(attr));
+						break;
+					case R.styleable.KListView_header_hint_ready:
+						config.setHeader_hint_ready(a.getText(attr));
+						break;
+				}
+			}
+			a.recycle();
+		}
+		initWithContext(context, config);
 	}
 
-	private void initWithContext(Context context) {
+	private void initWithContext(Context context, KConfig config) {
 		mScroller = new Scroller(context, new DecelerateInterpolator());
 		// XListView need the scroll event, and it will dispatch the event to
 		// user's listener (as a proxy).
 		super.setOnScrollListener(this);
-
+		// stringHoder = new StringHoder(header_hint_normal, header_hint_ready,
+		// header_hint_loading, footer_hint_ready, footer_hint_normal,
+		// footer_heaght, header_heaght, arrow_pic);
 		// init header view
-		mHeaderView = new XListViewHeader(context);
+		mHeaderView = new KListViewHeader(context, config);
 		mHeaderViewContent = (RelativeLayout) mHeaderView.findViewById(R.id.xlistview_header_content);
 		mHeaderTimeView = (TextView) mHeaderView.findViewById(R.id.xlistview_header_time);
 		addHeaderView(mHeaderView);
 
 		// init footer view
-		mFooterView = new XListViewFooter(context);
+		mFooterView = new KListViewFooter(context, config);
+		/* 2014 04 22 cgp */
+		mFooterView.hide();
+		/* 2014 04 22 cgp */
 
 		// init header height
 		mHeaderView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			@SuppressWarnings("deprecation")
+			@SuppressLint("NewApi")
 			@Override
 			public void onGlobalLayout() {
 				mHeaderViewHeight = mHeaderViewContent.getHeight();
-//				getViewTreeObserver().removeOnGlobalLayoutListener(this);
-				getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				if (android.os.Build.VERSION.SDK_INT >= 16) {
+					getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				} else {
+					getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				}
 			}
 		});
 	}
 
 	@Override
 	public void setAdapter(ListAdapter adapter) {
-		// make sure XListViewFooter is the last footer view, and only add once.
 		if (mIsFooterReady == false) {
 			mIsFooterReady = true;
 			addFooterView(mFooterView);
@@ -137,14 +212,10 @@ public class XListView extends ListView implements OnScrollListener {
 		if (!mEnablePullLoad) {
 			mFooterView.hide();
 			mFooterView.setOnClickListener(null);
-			// make sure "pull up" don't show a line in bottom when listview with one page
-			setFooterDividersEnabled(false);
 		} else {
 			mPullLoading = false;
 			mFooterView.show();
-			mFooterView.setState(XListViewFooter.STATE_NORMAL);
-			// make sure "pull up" don't show a line in bottom when listview with one page
-			setFooterDividersEnabled(true);
+			mFooterView.setState(KListViewFooter.STATE_NORMAL);
 			// both "pull up" and "click" will invoke load more.
 			mFooterView.setOnClickListener(new OnClickListener() {
 				@Override
@@ -171,7 +242,7 @@ public class XListView extends ListView implements OnScrollListener {
 	public void stopLoadMore() {
 		if (mPullLoading == true) {
 			mPullLoading = false;
-			mFooterView.setState(XListViewFooter.STATE_NORMAL);
+			mFooterView.setState(KListViewFooter.STATE_NORMAL);
 		}
 	}
 
@@ -195,9 +266,9 @@ public class XListView extends ListView implements OnScrollListener {
 		mHeaderView.setVisiableHeight((int) delta + mHeaderView.getVisiableHeight());
 		if (mEnablePullRefresh && !mPullRefreshing) { // 未处于刷新状态，更新箭头
 			if (mHeaderView.getVisiableHeight() > mHeaderViewHeight) {
-				mHeaderView.setState(XListViewHeader.STATE_READY);
+				mHeaderView.setState(KListViewHeader.STATE_READY);
 			} else {
-				mHeaderView.setState(XListViewHeader.STATE_NORMAL);
+				mHeaderView.setState(KListViewHeader.STATE_NORMAL);
 			}
 		}
 		setSelection(0); // scroll to top each time
@@ -230,9 +301,9 @@ public class XListView extends ListView implements OnScrollListener {
 		if (mEnablePullLoad && !mPullLoading) {
 			if (height > PULL_LOAD_MORE_DELTA) { // height enough to invoke load
 													// more.
-				mFooterView.setState(XListViewFooter.STATE_READY);
+				mFooterView.setState(KListViewFooter.STATE_READY);
 			} else {
-				mFooterView.setState(XListViewFooter.STATE_NORMAL);
+				mFooterView.setState(KListViewFooter.STATE_NORMAL);
 			}
 		}
 		mFooterView.setBottomMargin(height);
@@ -249,14 +320,41 @@ public class XListView extends ListView implements OnScrollListener {
 		}
 	}
 
-	private void startLoadMore() {
-		mPullLoading = true;
-		mFooterView.setState(XListViewFooter.STATE_LOADING);
+	public void startLoadMore() {
 		if (mListViewListener != null) {
 			mListViewListener.onLoadMore();
 		}
+		mPullLoading = true;
+		mFooterView.setState(KListViewFooter.STATE_LOADING);
 	}
 
+	private void startRefresh() {
+		if (mListViewListener != null) {
+			mListViewListener.onRefresh();
+		}
+		mPullRefreshing = true;
+		mHeaderView.setState(KListViewHeader.STATE_REFRESHING);
+	}
+
+	/**
+	 * 是否正在加载
+	 * 
+	 * @return
+	 */
+	public boolean isLoading() {
+		return mPullLoading;
+	}
+
+	/**
+	 * 是否正在刷新
+	 * 
+	 * @return
+	 */
+	public boolean isRefreshing() {
+		return mPullRefreshing;
+	}
+
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		if (mLastY == -1) {
@@ -284,20 +382,17 @@ public class XListView extends ListView implements OnScrollListener {
 				if (getFirstVisiblePosition() == 0) {
 					// invoke refresh
 					if (mEnablePullRefresh && mHeaderView.getVisiableHeight() > mHeaderViewHeight) {
-						mPullRefreshing = true;
-						mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
-						if (mListViewListener != null) {
-							mListViewListener.onRefresh();
-						}
+						startRefresh();
 					}
 					resetHeaderHeight();
 				} else if (getLastVisiblePosition() == mTotalItemCount - 1) {
 					// invoke load more.
-					if (mEnablePullLoad && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA && !mPullLoading) {
+					if (mEnablePullLoad && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA) {
 						startLoadMore();
 					}
 					resetFooterHeight();
 				}
+
 				break;
 		}
 		return super.onTouchEvent(ev);
@@ -338,7 +433,7 @@ public class XListView extends ListView implements OnScrollListener {
 		}
 	}
 
-	public void setXListViewListener(IXListViewListener l) {
+	public void setKListViewListener(IKListViewListener l) {
 		mListViewListener = l;
 	}
 
@@ -352,9 +447,80 @@ public class XListView extends ListView implements OnScrollListener {
 	/**
 	 * implements this interface to get refresh/load more event.
 	 */
-	public interface IXListViewListener {
+	public interface IKListViewListener {
 		public void onRefresh();
 
 		public void onLoadMore();
 	}
+
+	public static class KConfig {
+		private CharSequence header_hint_normal,// 下拉刷新
+				header_hint_ready,// 松开刷新数据
+				header_hint_loading, // 正在加载...
+				footer_hint_ready, // 松开加载数据
+				footer_hint_normal;// 上拉加载
+		private int arrow_pic_resId;
+
+		private KConfig() {
+		}
+
+		public static KConfig getSimpleInstance() {
+			return new KConfig();
+		}
+
+		public CharSequence getHeader_hint_normal() {
+			return header_hint_normal;
+		}
+
+		public KConfig setHeader_hint_normal(CharSequence header_hint_normal) {
+			this.header_hint_normal = header_hint_normal;
+			return this;
+		}
+
+		public CharSequence getHeader_hint_ready() {
+			return header_hint_ready;
+		}
+
+		public KConfig setHeader_hint_ready(CharSequence header_hint_ready) {
+			this.header_hint_ready = header_hint_ready;
+			return this;
+		}
+
+		public CharSequence getHeader_hint_loading() {
+			return header_hint_loading;
+		}
+
+		public KConfig setHeader_hint_loading(CharSequence header_hint_loading) {
+			this.header_hint_loading = header_hint_loading;
+			return this;
+		}
+
+		public CharSequence getFooter_hint_ready() {
+			return footer_hint_ready;
+		}
+
+		public KConfig setFooter_hint_ready(CharSequence footer_hint_ready) {
+			this.footer_hint_ready = footer_hint_ready;
+			return this;
+		}
+
+		public CharSequence getFooter_hint_normal() {
+			return footer_hint_normal;
+		}
+
+		public KConfig setFooter_hint_normal(CharSequence footer_hint_normal) {
+			this.footer_hint_normal = footer_hint_normal;
+			return this;
+		}
+
+		public int getArrow_pic_resId() {
+			return arrow_pic_resId;
+		}
+
+		public KConfig setArrow_pic_resId(int arrow_pic_resId) {
+			this.arrow_pic_resId = arrow_pic_resId;
+			return this;
+		}
+	}
+
 }

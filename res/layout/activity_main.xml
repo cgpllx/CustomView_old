@@ -2,15 +2,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.kubeiwu.customview.progress.KMultistateLayout
+    <com.kubeiwu.customview.multistate.MultistateLayout
         android:id="@+id/kprogresslayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <com.kubeiwu.customview.progress.KMultistateListView
+        <com.kubeiwu.customview.multistate.MultistateListView
             android:id="@+id/listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.kubeiwu.customview.progress.KMultistateLayout>
+    </com.kubeiwu.customview.multistate.MultistateLayout>
+    
 
 </RelativeLayout>

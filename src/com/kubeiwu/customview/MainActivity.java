@@ -8,21 +8,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.kubeiwu.customview.progress.KMultistateLayout;
-import com.kubeiwu.customview.progress.KMultistateListView;
-import com.kubeiwu.customview.progress.core.IKMultistateClickListener;
+import com.kubeiwu.customview.multistate.MultistateLayout;
+import com.kubeiwu.customview.multistate.MultistateListView;
+import com.kubeiwu.customview.multistate.core.IMultistateClickListener;
+import com.kubeiwu.customview.pulltorefresh.listview.KListView.IKListViewListener;
 
 public class MainActivity extends Activity {
-	KMultistateListView listview;
+	MultistateListView listview;
 	MyAdapter adatper;
-	KMultistateLayout kprogresslayout;
+	MultistateLayout kprogresslayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		listview = (KMultistateListView) findViewById(R.id.listview);
-		kprogresslayout = (KMultistateLayout) findViewById(R.id.kprogresslayout);
+		listview = (MultistateListView) findViewById(R.id.listview);
+		kprogresslayout = (MultistateLayout) findViewById(R.id.kprogresslayout);
 		// kprogresslayout.showLoadingView();
 		adatper = new MyAdapter();
 		listview.setAdapter(adatper);
@@ -39,7 +40,7 @@ public class MainActivity extends Activity {
 			}
 		}, 2000);
 		// listview.initViews();
-		listview.setMultistateClickListener(new IKMultistateClickListener() {
+		listview.setMultistateClickListener(new IMultistateClickListener() {
 
 			@Override
 			public void onLoadingViewClick() {
@@ -54,6 +55,49 @@ public class MainActivity extends Activity {
 			@Override
 			public void onEmptyViewClick() {
 
+			}
+		});
+		listview.setPullLoadEnable(true);
+		listview.setPullRefreshEnable(true);
+		listview.setKListViewListener(new IKListViewListener() {
+			
+			@Override
+			public void onRefresh() {
+				if(listview.isRefreshing()){
+					return;
+				}
+//				listview.isr
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+//						adatper.setItems(20);
+						// kprogresslayout.cancelAll();
+						// kprogresslayout.showEmptyView();
+						// kprogresslayout.showErrorView();
+						// listview.showEmptyView();
+						listview.stopRefresh();
+					}
+				}, 10000);
+			}
+			
+			@Override
+			public void onLoadMore() {
+				if(listview.isLoading()){
+					return;
+				}
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+//						adatper.setItems(20);
+						// kprogresslayout.cancelAll();
+						// kprogresslayout.showEmptyView();
+						// kprogresslayout.showErrorView();
+						// listview.showEmptyView();
+						listview.stopLoadMore();
+					}
+				}, 10000);
 			}
 		});
 		// mLoadingView.

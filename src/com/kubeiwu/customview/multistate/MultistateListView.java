@@ -1,4 +1,4 @@
-package com.kubeiwu.customview.progress;
+package com.kubeiwu.customview.multistate;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,29 +9,29 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.kubeiwu.customview.R;
-import com.kubeiwu.customview.progress.core.IKMultistateClickListener;
-import com.kubeiwu.customview.pulltorefresh.listview.XListView;
+import com.kubeiwu.customview.multistate.core.IMultistateClickListener;
+import com.kubeiwu.customview.pulltorefresh.listview.KListView;
 
-public class KMultistateListView extends XListView {
+public class MultistateListView extends KListView {
 	private View mLoadingView;
 	private View mEmptyView;
 	private View mErrorView;
 
-	public KMultistateListView(Context context, AttributeSet attrs) {
+	public MultistateListView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public KMultistateListView(Context context) {
+	public MultistateListView(Context context) {
 		this(context, null);
 	}
 
-	public KMultistateListView(Context context, AttributeSet attrs, int defStyle) {
+	public MultistateListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		LayoutInflater mLayoutInflater = LayoutInflater.from(context);
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultiStateListView);
-		int loadingViewResId = a.getResourceId(R.styleable.MultiStateListView_loadingView, R.layout.multistatelistview_loadingview);// 正在加载的view
-		int emptyViewResId = a.getResourceId(R.styleable.MultiStateListView_emptyView, R.layout.multistatelistview_emptyview);// 空数据的view
-		int errorViewResId = a.getResourceId(R.styleable.MultiStateListView_errorView, R.layout.multistatelistview_errorview);// 错误的view
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultistateListView);
+		int loadingViewResId = a.getResourceId(R.styleable.MultistateListView_loadingView, R.layout.multistatelistview_loadingview);// 正在加载的view
+		int emptyViewResId = a.getResourceId(R.styleable.MultistateListView_emptyView, R.layout.multistatelistview_emptyview);// 空数据的view
+		int errorViewResId = a.getResourceId(R.styleable.MultistateListView_errorView, R.layout.multistatelistview_errorview);// 错误的view
 
 		if (loadingViewResId > 0) {
 			mLoadingView = mLayoutInflater.inflate(loadingViewResId, null);
@@ -194,9 +194,9 @@ public class KMultistateListView extends XListView {
 		return container;
 	}
 
-	private IKMultistateClickListener multistateClickListener;
+	private IMultistateClickListener multistateClickListener;
 
-	public void setMultistateClickListener(IKMultistateClickListener multistateClickListener) {
+	public void setMultistateClickListener(IMultistateClickListener multistateClickListener) {
 		this.multistateClickListener = multistateClickListener;
 	}
 }

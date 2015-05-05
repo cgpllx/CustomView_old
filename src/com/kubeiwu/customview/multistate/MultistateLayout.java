@@ -1,4 +1,4 @@
-package com.kubeiwu.customview.progress;
+package com.kubeiwu.customview.multistate;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,36 +8,36 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.kubeiwu.customview.R;
-import com.kubeiwu.customview.progress.core.IKMultistateClickListener;
+import com.kubeiwu.customview.multistate.core.IMultistateClickListener;
 
-public class KMultistateLayout extends FrameLayout {
+public class MultistateLayout extends FrameLayout {
 	private View mLoadingView;
 	private View mEmptyView;
 	private View mErrorView;
 
-	public KMultistateLayout(Context context) {
+	public MultistateLayout(Context context) {
 		this(context, null);
 	}
 
-	public KMultistateLayout(Context context, AttributeSet attrs) {
+	public MultistateLayout(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public KMultistateLayout(Context context, AttributeSet attrs, int defStyle) {
+	public MultistateLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.progresslayout_layout, this, true);
-		TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.ProgressLayout);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultistateLayout);
 
-		int progressViewRef_id = attributes.getResourceId(R.styleable.ProgressLayout_loadingView, R.layout.progresslayout_loadingview);
+		int progressViewRef_id = a.getResourceId(R.styleable.MultistateLayout_loadingView, R.layout.progresslayout_loadingview);
 		mLoadingView = inflater.inflate(progressViewRef_id, this, false);
-		int errorViewRef_id = attributes.getResourceId(R.styleable.ProgressLayout_errorView, R.layout.progresslayout_errorview);
+		int errorViewRef_id = a.getResourceId(R.styleable.MultistateLayout_errorView, R.layout.progresslayout_errorview);
 		mErrorView = inflater.inflate(errorViewRef_id, this, false);
-		int emptyViewRef_id = attributes.getResourceId(R.styleable.ProgressLayout_emptyView, R.layout.progresslayout_errorview);
+		int emptyViewRef_id = a.getResourceId(R.styleable.MultistateLayout_emptyView, R.layout.progresslayout_errorview);
 		mEmptyView = inflater.inflate(emptyViewRef_id, this, false);
 
-		attributes.recycle();
+		a.recycle();
 	}
 
 	@Override
@@ -143,9 +143,9 @@ public class KMultistateLayout extends FrameLayout {
 		}
 	}
 
-	private IKMultistateClickListener multistateClickListener;
+	private IMultistateClickListener multistateClickListener;
 
-	public void setMultistateClickListener(IKMultistateClickListener multistateClickListener) {
+	public void setMultistateClickListener(IMultistateClickListener multistateClickListener) {
 		this.multistateClickListener = multistateClickListener;
 	}
 }

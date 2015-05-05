@@ -3,7 +3,7 @@
 
     <!-- 多种状态的listview -->
 
-    <declare-styleable name="MultiStateListView">
+    <declare-styleable name="MultistateListView">
         <attr name="loadingView" />
         <attr name="emptyView" />
         <attr name="errorView" />
@@ -11,16 +11,14 @@
     <!-- 下拉刷新 -->
 
     <declare-styleable name="KListView">
-        <attr name="header_hint_normal" format="string" />
-        <attr name="header_hint_ready" format="string" />
-        <attr name="header_hint_loading" format="string" />
-        <attr name="footer_hint_ready" format="string" />
-        <attr name="footer_hint_normal" format="string" />
-        <attr name="header_heaght" format="dimension" />
-        <attr name="footer_heaght" format="dimension" />
-        <attr name="arrow_pic" format="dimension" />
+        <attr name="header_hint_normal" format="string|reference" />
+        <attr name="header_hint_ready" format="string|reference" />
+        <attr name="header_hint_loading" format="string|reference" />
+        <attr name="footer_hint_ready" format="string|reference" />
+        <attr name="footer_hint_normal" format="string|reference" />
+        <attr name="arrow_pic" format="reference" />
     </declare-styleable>
-    <declare-styleable name="ProgressLayout">
+    <declare-styleable name="MultistateLayout">
         <attr name="loadingView" />
         <attr name="emptyView" />
         <attr name="errorView" />

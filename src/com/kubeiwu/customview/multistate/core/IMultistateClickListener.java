@@ -1,6 +1,6 @@
-package com.kubeiwu.customview.progress.core;
+package com.kubeiwu.customview.multistate.core;
 
-public interface IKMultistateClickListener {
+public interface IMultistateClickListener {
 	public void onLoadingViewClick();
 
 	public void onEmptyViewClick();
