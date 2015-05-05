@@ -13,9 +13,11 @@ import com.kubeiwu.customview.multistate.core.IMultistateClickListener;
 import com.kubeiwu.customview.pulltorefresh.listview.KListView;
 
 public class MultistateListView extends KListView {
+	public static final String TAG = MultistateListView.class.getName();
 	private View mLoadingView;
 	private View mEmptyView;
 	private View mErrorView;
+	private boolean isInited;;
 
 	public MultistateListView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
@@ -60,7 +62,10 @@ public class MultistateListView extends KListView {
 	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
-		initMultistate();
+		if(!isInited){
+			isInited=true;
+			initMultistate();
+		}
 	}
 
 	/**
@@ -72,7 +77,7 @@ public class MultistateListView extends KListView {
 			throw new IllegalStateException(getClass().getSimpleName() + " is not attached to parent view.");
 		}
 
-		ViewGroup container = getContainerView();
+		ViewGroup container = getContainerView(parent);
 		container.removeAllViews();
 
 		parent.removeView(container);
@@ -177,9 +182,20 @@ public class MultistateListView extends KListView {
 	 * @param parent
 	 * @return
 	 */
-	private ViewGroup getContainerView() {
-		ViewGroup container = createContainerView();
+	// private ViewGroup getContainerView() {
+	// ViewGroup container = createContainerView();
+	// return container;
+	// }
+	private ViewGroup getContainerView(ViewGroup parent) {
+		ViewGroup container = findContainerView(parent);
+		if (container == null) {
+			container = createContainerView();
+		}
 		return container;
+	}
+
+	private ViewGroup findContainerView(ViewGroup parent) {
+		return (ViewGroup) parent.findViewWithTag(TAG);
 	}
 
 	/**
@@ -190,6 +206,7 @@ public class MultistateListView extends KListView {
 	private ViewGroup createContainerView() {
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		FrameLayout container = new FrameLayout(getContext());
+		container.setTag(TAG);
 		container.setLayoutParams(lp);
 		return container;
 	}

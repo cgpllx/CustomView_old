@@ -14,6 +14,7 @@ public class MultistateLayout extends FrameLayout {
 	private View mLoadingView;
 	private View mEmptyView;
 	private View mErrorView;
+	private boolean isInited;
 
 	public MultistateLayout(Context context) {
 		this(context, null);
@@ -43,7 +44,10 @@ public class MultistateLayout extends FrameLayout {
 	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
-		initMultistate();
+		if(!isInited){
+			isInited=true;
+			initMultistate();
+		}
 	}
 
 	public void initMultistate() {

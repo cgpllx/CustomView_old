@@ -24,21 +24,32 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		listview = (MultistateListView) findViewById(R.id.listview);
 		kprogresslayout = (MultistateLayout) findViewById(R.id.kprogresslayout);
-		// kprogresslayout.showLoadingView();
+		 kprogresslayout.showLoadingView();
 		adatper = new MyAdapter();
 		listview.setAdapter(adatper);
 		adatper.setItems(20);
-		new Handler().postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				adatper.setItems(20);
-				// kprogresslayout.cancelAll();
-				// kprogresslayout.showEmptyView();
-				// kprogresslayout.showErrorView();
-				// listview.showEmptyView();
-			}
-		}, 2000);
+//		new Handler().postDelayed(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				adatper.setItems(20);
+//				// kprogresslayout.cancelAll();
+//				// kprogresslayout.showEmptyView();
+//				// kprogresslayout.showErrorView();
+//				// listview.showEmptyView();
+//				new Handler().postDelayed(new Runnable() {
+//
+//					@Override
+//					public void run() {
+//						adatper.setItems(20);
+//						// kprogresslayout.cancelAll();
+//						 kprogresslayout.showLoadingView();
+//						// kprogresslayout.showErrorView();
+//						// listview.showEmptyView();
+//					}
+//				}, 3000);
+//			}
+//		}, 2000);
 		// listview.initViews();
 		listview.setMultistateClickListener(new IMultistateClickListener() {
 
