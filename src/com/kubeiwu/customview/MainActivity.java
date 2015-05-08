@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
 		listview = (MultistateListView) findViewById(R.id.listview);
 		kprogresslayout = (MultistateLayout) findViewById(R.id.kprogresslayout);
 		 kprogresslayout.showLoadingView();
+//		 kprogresslayout.initMultistate();
 		adatper = new MyAdapter();
 		listview.setAdapter(adatper);
 		adatper.setItems(20);
@@ -35,7 +36,7 @@ public class MainActivity extends Activity {
 //				adatper.setItems(20);
 //				// kprogresslayout.cancelAll();
 //				// kprogresslayout.showEmptyView();
-//				// kprogresslayout.showErrorView();
+//				 kprogresslayout.showErrorView();
 //				// listview.showEmptyView();
 //				new Handler().postDelayed(new Runnable() {
 //

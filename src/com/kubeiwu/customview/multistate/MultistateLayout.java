@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.kubeiwu.customview.R;
@@ -41,17 +42,19 @@ public class MultistateLayout extends FrameLayout {
 		a.recycle();
 	}
 
+	int count = 0;
+
 	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		if(!isInited){
-			isInited=true;
+	public void addView(View child, int index, ViewGroup.LayoutParams params) {
+		super.addView(child, index, params);
+		if (!isInited) {
+			isInited = true;
 			initMultistate();
 		}
 	}
 
 	public void initMultistate() {
-		
+
 		if (mEmptyView != null) {
 			this.addView(mEmptyView);
 			mEmptyView.setOnClickListener(new OnClickListener() {
@@ -77,7 +80,6 @@ public class MultistateLayout extends FrameLayout {
 			});
 			mErrorView.setVisibility(View.GONE);
 		}
-
 		if (mLoadingView != null) {
 			this.addView(mLoadingView);
 			mLoadingView.setOnClickListener(new OnClickListener() {
@@ -90,8 +92,6 @@ public class MultistateLayout extends FrameLayout {
 			});
 			mLoadingView.setVisibility(View.GONE);
 		}
-		
-		
 	}
 
 	public static interface State {
