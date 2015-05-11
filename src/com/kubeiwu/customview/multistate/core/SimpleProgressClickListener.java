@@ -1,6 +1,6 @@
 package com.kubeiwu.customview.multistate.core;
 
-public class KBaseMultistateClickListener implements IMultistateClickListener {
+public class SimpleProgressClickListener implements KProgressClickListener {
 	public void onLoadingViewClick() {
 	}
 

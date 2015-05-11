@@ -1,20 +1,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app1="http://schemas.android.com/apk/res/com.kubeiwu.customview"
+    xmlns:app1="http://schemas.android.com/apk/res-aotu"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.kubeiwu.customview.multistate.MultistateLayout
+    <com.kubeiwu.customview.multistate.KProgressLayout
         android:id="@+id/kprogresslayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <com.kubeiwu.customview.multistate.MultistateListView
+        <com.kubeiwu.customview.multistate.KProgressListView
             android:id="@+id/listview"
             android:layout_width="300dp"
             android:layout_height="300dp"
             app1:header_hint_loading="吱吱吱吱吱吱"
             app1:header_hint_normal="@string/action_settings" >
-        </com.kubeiwu.customview.multistate.MultistateListView>
-    </com.kubeiwu.customview.multistate.MultistateLayout>
+        </com.kubeiwu.customview.multistate.KProgressListView>
+    </com.kubeiwu.customview.multistate.KProgressLayout>
 
 </RelativeLayout>

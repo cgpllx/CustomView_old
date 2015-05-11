@@ -9,31 +9,31 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.kubeiwu.customview.R;
-import com.kubeiwu.customview.multistate.core.IMultistateClickListener;
+import com.kubeiwu.customview.multistate.core.KProgressClickListener;
 import com.kubeiwu.customview.pulltorefresh.listview.KListView;
 
-public class MultistateListView extends KListView {
-	public static final String TAG = MultistateListView.class.getName();
+public class KProgressListView extends KListView {
+	public static final String TAG = KProgressListView.class.getName();
 	private View mLoadingView;
 	private View mEmptyView;
 	private View mErrorView;
 	private boolean isInited;;
 
-	public MultistateListView(Context context, AttributeSet attrs) {
+	public KProgressListView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public MultistateListView(Context context) {
+	public KProgressListView(Context context) {
 		this(context, null);
 	}
 
-	public MultistateListView(Context context, AttributeSet attrs, int defStyle) {
+	public KProgressListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		LayoutInflater mLayoutInflater = LayoutInflater.from(context);
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultistateListView);
-		int loadingViewResId = a.getResourceId(R.styleable.MultistateListView_loadingView, R.layout.multistatelistview_loadingview);// 正在加载的view
-		int emptyViewResId = a.getResourceId(R.styleable.MultistateListView_emptyView, R.layout.multistatelistview_emptyview);// 空数据的view
-		int errorViewResId = a.getResourceId(R.styleable.MultistateListView_errorView, R.layout.multistatelistview_errorview);// 错误的view
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KProgressListView);
+		int loadingViewResId = a.getResourceId(R.styleable.KProgressListView_loadingView, R.layout.kprogresslistview_loadingview);// 正在加载的view
+		int emptyViewResId = a.getResourceId(R.styleable.KProgressListView_emptyView, R.layout.kprogresslistview_emptyview);// 空数据的view
+		int errorViewResId = a.getResourceId(R.styleable.KProgressListView_errorView, R.layout.kprogresslistview_errorview);// 错误的view
 
 		if (loadingViewResId > 0) {
 			mLoadingView = mLayoutInflater.inflate(loadingViewResId, null);
@@ -64,14 +64,14 @@ public class MultistateListView extends KListView {
 		super.onAttachedToWindow();
 		if(!isInited){
 			isInited=true;
-			initMultistate();
+			initKProgress();
 		}
 	}
 
 	/**
 	 * 默认值显示mLoadingView，这个最常用
 	 */
-	public void initMultistate() {
+	public void initKProgress() {
 		ViewGroup parent = (ViewGroup) getParent();
 		if (parent == null) {
 			throw new IllegalStateException(getClass().getSimpleName() + " is not attached to parent view.");
@@ -88,8 +88,8 @@ public class MultistateListView extends KListView {
 			mEmptyView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (multistateClickListener != null) {
-						multistateClickListener.onEmptyViewClick();
+					if (kProgressClickListener != null) {
+						kProgressClickListener.onEmptyViewClick();
 					}
 				}
 			});
@@ -101,8 +101,8 @@ public class MultistateListView extends KListView {
 			mErrorView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (multistateClickListener != null) {
-						multistateClickListener.onErrorViewClick();
+					if (kProgressClickListener != null) {
+						kProgressClickListener.onErrorViewClick();
 					}
 				}
 			});
@@ -114,8 +114,8 @@ public class MultistateListView extends KListView {
 			mLoadingView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (multistateClickListener != null) {
-						multistateClickListener.onLoadingViewClick();
+					if (kProgressClickListener != null) {
+						kProgressClickListener.onLoadingViewClick();
 					}
 				}
 			});
@@ -211,9 +211,9 @@ public class MultistateListView extends KListView {
 		return container;
 	}
 
-	private IMultistateClickListener multistateClickListener;
+	private KProgressClickListener kProgressClickListener;
 
-	public void setMultistateClickListener(IMultistateClickListener multistateClickListener) {
-		this.multistateClickListener = multistateClickListener;
+	public void setKProgressClickListener(KProgressClickListener progressClickListener) {
+		this.kProgressClickListener = progressClickListener;
 	}
 }
