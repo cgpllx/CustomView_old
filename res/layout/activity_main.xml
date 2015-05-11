@@ -14,7 +14,7 @@
             android:layout_height="300dp"
             app1:header_hint_loading="吱吱吱吱吱吱"
             app1:header_hint_normal="@string/action_settings" >
-        </com.kubeiwu.customview.multistate.KProgressListView>
-    </com.kubeiwu.customview.multistate.KProgressLayout>
+        </com.kubeiwu.customview.progress.KProgressListView>
+    </com.kubeiwu.customview.progress.KProgressLayout>
 
 </RelativeLayout>
