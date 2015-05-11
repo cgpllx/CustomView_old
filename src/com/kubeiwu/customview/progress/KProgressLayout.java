@@ -1,4 +1,4 @@
-package com.kubeiwu.customview.multistate;
+package com.kubeiwu.customview.progress;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,34 +9,34 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.kubeiwu.customview.R;
-import com.kubeiwu.customview.multistate.core.IMultistateClickListener;
+import com.kubeiwu.customview.progress.core.KProgressClickListener;
 
-public class MultistateLayout extends FrameLayout {
+public class KProgressLayout extends FrameLayout {
 	private View mLoadingView;
 	private View mEmptyView;
 	private View mErrorView;
 	private boolean isInited;
 
-	public MultistateLayout(Context context) {
+	public KProgressLayout(Context context) {
 		this(context, null);
 	}
 
-	public MultistateLayout(Context context, AttributeSet attrs) {
+	public KProgressLayout(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public MultistateLayout(Context context, AttributeSet attrs, int defStyle) {
+	public KProgressLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.multistatelayout_layout, this, true);
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultistateLayout);
+		inflater.inflate(R.layout.kprogresslayout_layout, this, true);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KProgressLayout);
 
-		int progressViewRef_id = a.getResourceId(R.styleable.MultistateLayout_loadingView, R.layout.multistatelayout_loadingview);
+		int progressViewRef_id = a.getResourceId(R.styleable.KProgressLayout_loadingView, R.layout.kprogresslayout_loadingview);
 		mLoadingView = inflater.inflate(progressViewRef_id, this, false);
-		int errorViewRef_id = a.getResourceId(R.styleable.MultistateLayout_errorView, R.layout.multistatelayout_errorview);
+		int errorViewRef_id = a.getResourceId(R.styleable.KProgressLayout_errorView, R.layout.kprogresslayout_errorview);
 		mErrorView = inflater.inflate(errorViewRef_id, this, false);
-		int emptyViewRef_id = a.getResourceId(R.styleable.MultistateLayout_emptyView, R.layout.multistatelayout_errorview);
+		int emptyViewRef_id = a.getResourceId(R.styleable.KProgressLayout_emptyView, R.layout.kprogresslayout_errorview);
 		mEmptyView = inflater.inflate(emptyViewRef_id, this, false);
 
 		a.recycle();
@@ -49,19 +49,19 @@ public class MultistateLayout extends FrameLayout {
 		super.addView(child, index, params);
 		if (!isInited) {
 			isInited = true;
-			initMultistate();
+			initKProgress();
 		}
 	}
 
-	public void initMultistate() {
+	public void initKProgress() {
 
 		if (mEmptyView != null) {
 			this.addView(mEmptyView);
 			mEmptyView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (multistateClickListener != null) {
-						multistateClickListener.onEmptyViewClick();
+					if (kProgressClickListener != null) {
+						kProgressClickListener.onEmptyViewClick();
 					}
 				}
 			});
@@ -73,8 +73,8 @@ public class MultistateLayout extends FrameLayout {
 			mErrorView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (multistateClickListener != null) {
-						multistateClickListener.onErrorViewClick();
+					if (kProgressClickListener != null) {
+						kProgressClickListener.onErrorViewClick();
 					}
 				}
 			});
@@ -85,8 +85,8 @@ public class MultistateLayout extends FrameLayout {
 			mLoadingView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (multistateClickListener != null) {
-						multistateClickListener.onLoadingViewClick();
+					if (kProgressClickListener != null) {
+						kProgressClickListener.onLoadingViewClick();
 					}
 				}
 			});
@@ -147,9 +147,9 @@ public class MultistateLayout extends FrameLayout {
 		}
 	}
 
-	private IMultistateClickListener multistateClickListener;
+	private KProgressClickListener kProgressClickListener;
 
-	public void setMultistateClickListener(IMultistateClickListener multistateClickListener) {
-		this.multistateClickListener = multistateClickListener;
+	public void setMultistateClickListener(KProgressClickListener kProgressClickListener) {
+		this.kProgressClickListener = kProgressClickListener;
 	}
 }

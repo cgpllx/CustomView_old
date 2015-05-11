@@ -8,22 +8,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.kubeiwu.customview.multistate.MultistateLayout;
-import com.kubeiwu.customview.multistate.MultistateListView;
-import com.kubeiwu.customview.multistate.core.IMultistateClickListener;
+import com.kubeiwu.customview.progress.KProgressLayout;
+import com.kubeiwu.customview.progress.KProgressListView;
+import com.kubeiwu.customview.progress.core.KProgressClickListener;
 import com.kubeiwu.customview.pulltorefresh.listview.KListView.IKListViewListener;
 
 public class MainActivity extends Activity {
-	MultistateListView listview;
+	KProgressListView listview;
 	MyAdapter adatper;
-	MultistateLayout kprogresslayout;
+	KProgressLayout kprogresslayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		listview = (MultistateListView) findViewById(R.id.listview);
-		kprogresslayout = (MultistateLayout) findViewById(R.id.kprogresslayout);
+		listview = (KProgressListView) findViewById(R.id.listview);
+		kprogresslayout = (KProgressLayout) findViewById(R.id.kprogresslayout);
 		 kprogresslayout.showLoadingView();
 //		 kprogresslayout.initMultistate();
 		adatper = new MyAdapter();
@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
 //			}
 //		}, 2000);
 		// listview.initViews();
-		listview.setMultistateClickListener(new IMultistateClickListener() {
+		listview.setKProgressClickListener(new KProgressClickListener() {
 
 			@Override
 			public void onLoadingViewClick() {
