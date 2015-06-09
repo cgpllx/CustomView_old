@@ -64,8 +64,10 @@ public class KListViewHeader extends LinearLayout {
 		setGravity(Gravity.BOTTOM);
 
 		mArrowImageView = (ImageView) findViewById(R.id.xlistview_header_arrow);
-		int arrow_pic_resid=config.getArrow_pic_resId();
-		mArrowImageView.setImageResource(arrow_pic_resid!=0?arrow_pic_resid:R.drawable.klistview_arrow);
+		int arrow_pic_resid = config.getArrow_pic_resId();
+		 
+		mArrowImageView.setImageResource(arrow_pic_resid != 0 ? arrow_pic_resid : R.drawable.klistview_arrow);
+		
 		mHintTextView = (TextView) findViewById(R.id.xlistview_header_hint_textview);
 		mProgressBar = (ProgressBar) findViewById(R.id.xlistview_header_progressbar);
 
@@ -96,20 +98,20 @@ public class KListViewHeader extends LinearLayout {
 				if (mState == STATE_REFRESHING) {
 					mArrowImageView.clearAnimation();
 				}
-				CharSequence header_hint_normal=config.getHeader_hint_normal();
-				mHintTextView.setText(!TextUtils.isEmpty(header_hint_normal)?header_hint_normal:getResources().getString(R.string.xlistview_header_hint_normal));
+				CharSequence header_hint_normal = config.getHeader_hint_normal();
+				mHintTextView.setText(!TextUtils.isEmpty(header_hint_normal) ? header_hint_normal : getResources().getString(R.string.xlistview_header_hint_normal));
 				break;
 			case STATE_READY:
 				if (mState != STATE_READY) {
 					mArrowImageView.clearAnimation();
 					mArrowImageView.startAnimation(mRotateUpAnim);
-					CharSequence header_hint_ready=config.getHeader_hint_ready();
-					mHintTextView.setText(!TextUtils.isEmpty(header_hint_ready)?header_hint_ready:getResources().getString(R.string.xlistview_header_hint_ready));
+					CharSequence header_hint_ready = config.getHeader_hint_ready();
+					mHintTextView.setText(!TextUtils.isEmpty(header_hint_ready) ? header_hint_ready : getResources().getString(R.string.xlistview_header_hint_ready));
 				}
 				break;
 			case STATE_REFRESHING:
-				CharSequence header_hint_loading=config.getHeader_hint_loading();
-				mHintTextView.setText(!TextUtils.isEmpty(header_hint_loading)?header_hint_loading:getResources().getString(R.string.xlistview_header_hint_loading));
+				CharSequence header_hint_loading = config.getHeader_hint_loading();
+				mHintTextView.setText(!TextUtils.isEmpty(header_hint_loading) ? header_hint_loading : getResources().getString(R.string.xlistview_header_hint_loading));
 				break;
 			default:
 		}

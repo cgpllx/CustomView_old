@@ -149,7 +149,7 @@ public class KProgressLayout extends FrameLayout {
 
 	private KProgressClickListener kProgressClickListener;
 
-	public void setMultistateClickListener(KProgressClickListener kProgressClickListener) {
+	public void setKProgressClickListener(KProgressClickListener kProgressClickListener) {
 		this.kProgressClickListener = kProgressClickListener;
 	}
 }
