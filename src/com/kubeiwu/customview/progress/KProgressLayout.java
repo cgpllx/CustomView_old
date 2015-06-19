@@ -22,7 +22,7 @@ public class KProgressLayout extends FrameLayout {
 	}
 
 	public KProgressLayout(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		this(context, attrs, R.attr.kProgressLayoutsStyle);
 	}
 
 	public KProgressLayout(Context context, AttributeSet attrs, int defStyle) {
@@ -30,7 +30,9 @@ public class KProgressLayout extends FrameLayout {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.kprogresslayout_layout, this, true);
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KProgressLayout);
+		// context.getTheme().obtainStyledAttributes(attrs)
+		// a = context.obtainStyledAttributes(attrs, R.styleable.KProgressLayout);这个至获取
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KProgressLayout, defStyle, 0);
 
 		int progressViewRef_id = a.getResourceId(R.styleable.KProgressLayout_loadingView, R.layout.kprogresslayout_loadingview);
 		mLoadingView = inflater.inflate(progressViewRef_id, this, false);
@@ -38,6 +40,8 @@ public class KProgressLayout extends FrameLayout {
 		mErrorView = inflater.inflate(errorViewRef_id, this, false);
 		int emptyViewRef_id = a.getResourceId(R.styleable.KProgressLayout_emptyView, R.layout.kprogresslayout_errorview);
 		mEmptyView = inflater.inflate(emptyViewRef_id, this, false);
+
+		// a = context.obtainStyledAttributes(attrs, R.styleable.KProgressLayout);
 
 		a.recycle();
 	}

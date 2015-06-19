@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- 这样可以引用系统样式 -->
+    <declare-styleable name="KProgressListViews">
+        <attr name="kProgressListViewStyle" format="reference" />
+    </declare-styleable>
     <!-- 多种状态的listview -->
-
     <declare-styleable name="KProgressListView">
         <attr name="loadingView" />
         <attr name="emptyView" />
         <attr name="errorView" />
+    </declare-styleable>
+        <!-- 这样可以引用系统样式 -->
+    <declare-styleable name="KProgressLayouts">
+        <attr name="kProgressLayoutsStyle" format="reference" />
     </declare-styleable>
     <!-- 多种状态的linerlayout -->
     <declare-styleable name="KProgressLayout">

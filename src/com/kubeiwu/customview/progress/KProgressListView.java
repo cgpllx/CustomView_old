@@ -20,7 +20,8 @@ public class KProgressListView extends KListView {
 	private boolean isInited;;
 
 	public KProgressListView(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		// R.attr.kProgressListViewStyle从系统中获取样式
+		this(context, attrs, R.attr.kProgressListViewStyle);
 	}
 
 	public KProgressListView(Context context) {
@@ -30,7 +31,10 @@ public class KProgressListView extends KListView {
 	public KProgressListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		LayoutInflater mLayoutInflater = LayoutInflater.from(context);
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KProgressListView);
+		// TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KProgressListView);
+		
+		TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.KProgressListView, defStyle, 0);
+
 		int loadingViewResId = a.getResourceId(R.styleable.KProgressListView_loadingView, R.layout.kprogresslistview_loadingview);// 正在加载的view
 		int emptyViewResId = a.getResourceId(R.styleable.KProgressListView_emptyView, R.layout.kprogresslistview_emptyview);// 空数据的view
 		int errorViewResId = a.getResourceId(R.styleable.KProgressListView_errorView, R.layout.kprogresslistview_errorview);// 错误的view
@@ -62,8 +66,8 @@ public class KProgressListView extends KListView {
 	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
-		if(!isInited){
-			isInited=true;
+		if (!isInited) {
+			isInited = true;
 			initKProgress();
 		}
 	}
