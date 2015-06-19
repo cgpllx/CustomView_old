@@ -320,17 +320,29 @@ public class KListView extends ListView implements OnScrollListener {
 		}
 	}
 
+	/**
+	 * 加载一次后必须停下才能加载第二次
+	 */
 	public void startLoadMore() {
 		if (mListViewListener != null) {
-			mListViewListener.onLoadMore();
+			if (!mPullLoading) {
+				// flipPage();
+				mListViewListener.onLoadMore();
+			}
 		}
 		mPullLoading = true;
 		mFooterView.setState(KListViewFooter.STATE_LOADING);
 	}
 
+	/**
+	 * 刷新一次后必须停下才能刷新第二次
+	 */
 	private void startRefresh() {
 		if (mListViewListener != null) {
-			mListViewListener.onRefresh();
+			if (!mPullRefreshing) {
+				pageInit();
+				mListViewListener.onRefresh();
+			}
 		}
 		mPullRefreshing = true;
 		mHeaderView.setState(KListViewHeader.STATE_REFRESHING);
@@ -453,6 +465,36 @@ public class KListView extends ListView implements OnScrollListener {
 		public void onLoadMore();
 	}
 
+	// 增加翻页功能
+	private int page = 0;
+
+	/**
+	 * 数据加载成功才翻页
+	 */
+	public void flipPage() {
+		page++;
+	}
+
+	public int getCurrentPage() {
+		return page;
+	}
+
+	public void pageInit() {
+		page = 0;
+	}
+
+	private int eachPageNumber;
+
+	public void setEachPageNumber(int eachPageNumber) {
+		this.eachPageNumber = eachPageNumber;
+	}
+
+	public void stopPull() {// 同时停止
+		stopLoadMore();
+		stopRefresh();
+	}
+
+	// 增加翻页功能
 	public static class KConfig {
 		private CharSequence header_hint_normal,// 下拉刷新
 				header_hint_ready,// 松开刷新数据
