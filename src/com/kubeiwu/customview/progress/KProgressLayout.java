@@ -44,17 +44,22 @@ public class KProgressLayout extends FrameLayout {
 		// a = context.obtainStyledAttributes(attrs, R.styleable.KProgressLayout);
 
 		a.recycle();
+		initKProgress();
 	}
 
 	int count = 0;
 
 	@Override
 	public void addView(View child, int index, ViewGroup.LayoutParams params) {
-		super.addView(child, index, params);
-		if (!isInited) {
-			isInited = true;
-			initKProgress();
+		if (getChildCount() >= 3 && index < 0) {// 这里的3是initKProgress中的3个view
+			index = getChildCount() - 3;
 		}
+		// System.out.println("KProgressLayout--index=" + index + "--getChildCount=" + getChildCount());
+		super.addView(child, index, params);
+		// if (!isInited) {
+		// isInited = true;
+		// initKProgress();
+		// }
 	}
 
 	public void initKProgress() {

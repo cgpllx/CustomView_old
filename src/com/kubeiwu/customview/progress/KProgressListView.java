@@ -32,7 +32,7 @@ public class KProgressListView extends KListView {
 		super(context, attrs, defStyle);
 		LayoutInflater mLayoutInflater = LayoutInflater.from(context);
 		// TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KProgressListView);
-		
+
 		TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.KProgressListView, defStyle, 0);
 
 		int loadingViewResId = a.getResourceId(R.styleable.KProgressListView_loadingView, R.layout.kprogresslistview_loadingview);// 正在加载的view
@@ -63,32 +63,52 @@ public class KProgressListView extends KListView {
 		return mErrorView;
 	}
 
+	// 生命周期 onFinishInflate--onstart--onrusme--onAttachedToWindow
 	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
+	protected void onFinishInflate() {
+		super.onFinishInflate();
 		if (!isInited) {
 			isInited = true;
 			initKProgress();
 		}
 	}
 
-	/**
-	 * 默认值显示mLoadingView，这个最常用
-	 */
-	public void initKProgress() {
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		// 要添加在window后才能找到parent
 		ViewGroup parent = (ViewGroup) getParent();
 		if (parent == null) {
 			throw new IllegalStateException(getClass().getSimpleName() + " is not attached to parent view.");
 		}
+		if (mContainer != null) {
+			parent.removeView(mContainer);
+			parent.addView(mContainer, 1);
+		}
+	}
 
-		ViewGroup container = getContainerView(parent);
-		container.removeAllViews();
+	// emptyview要放在和listview的同一个父容器中才能正常显示，那么在listview在之前是不鞥拿到父容器view的，只有在onAttachedToWindow后才能知道
+	/**
+	 * 默认值显示mLoadingView，这个最常用
+	 */
+	ViewGroup mContainer;
 
-		parent.removeView(container);
-		parent.addView(container);
+	public void initKProgress() {
+		// ViewGroup parent = (ViewGroup) getParent();
+		// if (parent == null) {
+		// throw new IllegalStateException(getClass().getSimpleName() + " is not attached to parent view.");
+		// }
+		//
+		// ViewGroup container = getContainerView(parent);
+		// ViewGroup container = createContainerView();
+		mContainer = createContainerView();
+		mContainer.removeAllViews();
+
+		// parent.removeView(container);
+		// parent.addView(container, 1);
 
 		if (mEmptyView != null) {
-			container.addView(mEmptyView);
+			mContainer.addView(mEmptyView);
 			mEmptyView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -101,7 +121,7 @@ public class KProgressListView extends KListView {
 		}
 
 		if (mErrorView != null) {
-			container.addView(mErrorView);
+			mContainer.addView(mErrorView);
 			mErrorView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -114,7 +134,7 @@ public class KProgressListView extends KListView {
 		}
 
 		if (mLoadingView != null) {
-			container.addView(mLoadingView);
+			mContainer.addView(mLoadingView);
 			mLoadingView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -126,7 +146,8 @@ public class KProgressListView extends KListView {
 			mLoadingView.setVisibility(View.VISIBLE);
 		}
 
-		super.setEmptyView(container);
+		super.setEmptyView(mContainer);
+
 	}
 
 	// ================================================================================
@@ -220,4 +241,11 @@ public class KProgressListView extends KListView {
 	public void setKProgressClickListener(KProgressClickListener progressClickListener) {
 		this.kProgressClickListener = progressClickListener;
 	}
+
+	@Override
+	public void startRefresh() {
+		showLoadingView();
+		super.startRefresh();
+	}
+
 }

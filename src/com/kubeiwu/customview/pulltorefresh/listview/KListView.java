@@ -337,7 +337,7 @@ public class KListView extends ListView implements OnScrollListener {
 	/**
 	 * 刷新一次后必须停下才能刷新第二次
 	 */
-	private void startRefresh() {
+	public void startRefresh() {
 		if (mListViewListener != null) {
 			if (!mPullRefreshing) {
 				pageInit();
