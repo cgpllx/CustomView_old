@@ -116,31 +116,56 @@ public class KListView extends ListView implements OnScrollListener {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KListView);
 			int count = a.getIndexCount();
 			for (int i = 0; i < count; i++) {
-				int attr = a.getIndex(i);
-				switch (attr) {
-					case R.styleable.KListView_arrow_pic:
-						int arrow_pic_resId = a.getResourceId(attr, R.drawable.klistview_arrow);
-						config.setArrow_pic_resId(arrow_pic_resId);
-						break;
-					case R.styleable.KListView_footer_hint_normal:
-						config.setFooter_hint_normal(a.getText(attr));
-						break;
-					case R.styleable.KListView_footer_hint_ready:
-						config.setFooter_hint_ready(a.getText(attr));
-						break;
-					case R.styleable.KListView_header_hint_loading:
-						config.setHeader_hint_loading(a.getText(attr));
-						break;
-					case R.styleable.KListView_header_hint_normal:
-						config.setHeader_hint_normal(a.getText(attr));
-						break;
-					case R.styleable.KListView_header_hint_ready:
-						config.setHeader_hint_ready(a.getText(attr));
-						break;
+				final int attr = a.getIndex(i);
+				final int KListView_arrow_pic=R.styleable.KListView_arrow_pic;
+				final int KListView_footer_hint_normal=R.styleable.KListView_footer_hint_normal; 
+				final int KListView_footer_hint_ready=R.styleable.KListView_footer_hint_ready;
+				final int KListView_header_hint_loading=R.styleable.KListView_header_hint_loading;
+				final int KListView_header_hint_normal=R.styleable.KListView_header_hint_normal;
+				final int KListView_header_hint_ready=R.styleable.KListView_header_hint_ready;
+				
+				
+				 
+				if(attr==KListView_arrow_pic){
+					int arrow_pic_resId = a.getResourceId(attr, R.drawable.klistview_arrow);
+					config.setArrow_pic_resId(arrow_pic_resId);
+				}else if(attr==KListView_footer_hint_normal){
+					config.setFooter_hint_normal(a.getText(attr));
+				}else if(attr==KListView_footer_hint_ready){
+					config.setFooter_hint_ready(a.getText(attr));
+				}else if(attr==KListView_header_hint_loading){
+					config.setHeader_hint_loading(a.getText(attr));
+				}else if(attr==KListView_header_hint_normal){
+					config.setHeader_hint_normal(a.getText(attr));
+				}else if(attr==KListView_header_hint_ready){
+					config.setHeader_hint_ready(a.getText(attr));
 				}
+				
+//				switch (attr) {
+//					case  KListView_arrow_pic:
+//						int arrow_pic_resId = a.getResourceId(attr, R.drawable.klistview_arrow);
+//						config.setArrow_pic_resId(arrow_pic_resId);
+//						break;
+//					case  2:
+//						config.setFooter_hint_normal(a.getText(attr));
+//						break;
+//					case  KListView_footer_hint_ready:
+//						config.setFooter_hint_ready(a.getText(attr));
+//						break;
+//					case  KListView_header_hint_loading:
+//						config.setHeader_hint_loading(a.getText(attr));
+//						break;
+//					case  KListView_header_hint_normal:
+//						config.setHeader_hint_normal(a.getText(attr));
+//						break;
+//					case  KListView_header_hint_ready:
+//						config.setHeader_hint_ready(a.getText(attr));
+//						break;
+//				}
 			}
 			a.recycle();
 		}
+		setFooterDividersEnabled(false);
 		initWithContext(context, config);
 	}
 
@@ -306,7 +331,7 @@ public class KListView extends ListView implements OnScrollListener {
 				mFooterView.setState(KListViewFooter.STATE_NORMAL);
 			}
 		}
-		mFooterView.setBottomMargin(height);
+		mFooterView.setBottomMargin(height);// 解决list item中间一条线问题（在item没有充满屏幕时候出现）
 
 		// setSelection(mTotalItemCount - 1); // scroll to bottom
 	}
@@ -341,7 +366,10 @@ public class KListView extends ListView implements OnScrollListener {
 		if (mListViewListener != null) {
 			if (!mPullRefreshing) {
 				pageInit();
-				mListViewListener.onRefresh();
+				mPullRefreshing = true;
+				mListViewListener.onRefresh();// 刷新结束后，会判断是否在刷新，如果是就取消，所以mPullRefreshing要放在回调前面
+				mHeaderView.setState(KListViewHeader.STATE_REFRESHING);
+				return;
 			}
 		}
 		mPullRefreshing = true;
