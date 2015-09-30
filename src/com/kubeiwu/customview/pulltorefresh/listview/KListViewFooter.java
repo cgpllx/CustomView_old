@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ViewSwitcher.ViewFactory;
-
 import com.kubeiwu.customview.R;
 import com.kubeiwu.customview.pulltorefresh.listview.KListView.KConfig;
 

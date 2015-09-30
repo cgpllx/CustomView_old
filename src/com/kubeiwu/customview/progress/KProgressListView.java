@@ -55,6 +55,7 @@ public class KProgressListView extends KListView {
 		return mLoadingView;
 	}
 
+	@Override
 	public View getEmptyView() {
 		return mEmptyView;
 	}
@@ -229,7 +230,7 @@ public class KProgressListView extends KListView {
 	 * @return
 	 */
 	private ViewGroup createContainerView() {
-		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		LayoutParams lp = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 		FrameLayout container = new FrameLayout(getContext());
 		container.setTag(TAG);
 		container.setLayoutParams(lp);

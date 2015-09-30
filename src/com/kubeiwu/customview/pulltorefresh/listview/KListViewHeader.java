@@ -12,9 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.ViewSwitcher.ViewFactory;
-
 import com.kubeiwu.customview.R;
 import com.kubeiwu.customview.pulltorefresh.listview.KListView.KConfig;
 

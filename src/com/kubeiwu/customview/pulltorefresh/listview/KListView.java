@@ -28,7 +28,7 @@ public class KListView extends ListView implements OnScrollListener {
 
 	private float mLastY = -1; // save event y
 
-	private Scroller mScroller; // used for scroll back
+	private Scroller mScroller; // used for scroll back 
 
 	private OnScrollListener mScrollListener; // user's scroll listener
 
@@ -87,7 +87,7 @@ public class KListView extends ListView implements OnScrollListener {
 	/**
 	 * @param context
 	 */
-	public KListView(Context context) {
+	public KListView(Context context) { 
 		this(context, null, 0, null);
 	}
 
@@ -116,7 +116,7 @@ public class KListView extends ListView implements OnScrollListener {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KListView);
 			int count = a.getIndexCount();
 			for (int i = 0; i < count; i++) {
-				final int attr = a.getIndex(i);
+				final int attr = a.getIndex(i);  
 				final int KListView_arrow_pic=R.styleable.KListView_arrow_pic;
 				final int KListView_footer_hint_normal=R.styleable.KListView_footer_hint_normal; 
 				final int KListView_footer_hint_ready=R.styleable.KListView_footer_hint_ready;
