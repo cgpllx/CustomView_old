@@ -128,7 +128,7 @@ public class KListView extends ListView implements OnScrollListener {
 				 
 				if(attr==KListView_arrow_pic){
 					int arrow_pic_resId = a.getResourceId(attr, R.drawable.klistview_arrow);
-					config.setArrow_pic_resId(arrow_pic_resId);
+					config.setArrow_pic_resId(arrow_pic_resId); 
 				}else if(attr==KListView_footer_hint_normal){
 					config.setFooter_hint_normal(a.getText(attr));
 				}else if(attr==KListView_footer_hint_ready){
