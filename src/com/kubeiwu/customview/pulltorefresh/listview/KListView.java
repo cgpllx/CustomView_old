@@ -35,7 +35,7 @@ public class KListView extends ListView implements OnScrollListener {
 	// the interface to trigger refresh and load more.
 	private IKListViewListener mListViewListener;
 
-	// -- header view
+	// -- header view 
 	private KListViewHeader mHeaderView;
 
 	// header view content, use it to calculate the Header's height. And hide it
@@ -124,7 +124,7 @@ public class KListView extends ListView implements OnScrollListener {
 				final int KListView_header_hint_normal=R.styleable.KListView_header_hint_normal;
 				final int KListView_header_hint_ready=R.styleable.KListView_header_hint_ready;
 				
-				
+				  
 				 
 				if(attr==KListView_arrow_pic){
 					int arrow_pic_resId = a.getResourceId(attr, R.drawable.klistview_arrow);

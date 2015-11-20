@@ -140,6 +140,7 @@ public class KProgressLayout extends FrameLayout {
 				showErrorView = true;
 				break;
 			case State.CANCEL:
+				// 显示主界面
 				break;
 		}
 
